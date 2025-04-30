@@ -1,0 +1,137 @@
+@font-face {
+    font-family: Wingdings;
+    src: url(../media/wingding.ttf);
+}
+
+body {
+    color: ghostwhite;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    font-size: 3vh;
+    background: rgb(0, 0, 0);
+    user-select: none;
+}
+
+#begin {
+    margin-top: 30vh;
+    font-style: oblique;
+}
+
+#stars-1 {
+    font-size: 2vh;
+    margin: auto;
+    position: absolute;
+    animation: starSpin1 140s infinite linear;
+    z-index: 0;
+}
+
+#stars-2 {
+    font-size: 2vh;
+    margin: auto;
+    position: absolute;
+    animation: starSpin2 140s infinite linear;
+    z-index: 0;
+}
+
+#stars-3 {
+    font-size: 2vh;
+    margin: auto;
+    position: absolute;
+    animation: starSpin3 140s infinite linear;
+    z-index: 0;
+}
+
+#stars-4 {
+    font-size: 2vh;
+    margin: auto;
+    position: absolute;
+    animation: starSpin4 140s infinite linear;
+    z-index: 0;
+}
+
+@keyframes starSpin1 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes starSpin2 {
+    from {
+        transform: rotate(90deg);
+    }
+
+    to {
+        transform: rotate(450deg);
+    }
+}
+
+@keyframes starSpin3 {
+    from {
+        transform: rotate(45deg);
+    }
+
+    to {
+        transform: rotate(405deg);
+    }
+}
+
+@keyframes starSpin4 {
+    from {
+        transform: rotate(135deg);
+    }
+
+    to {
+        transform: rotate(495deg);
+    }
+}
+
+#control-panel {
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 1vh;
+}
+
+.toggle-btn {
+    color: rgb(153, 153, 153);
+    font-size: 5vh;
+    margin-right: 1vw;
+    font-family: Wingdings;
+}
+
+.toggle-btn:hover {
+    color: ghostwhite;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toggle-btn:active {
+    color: rgb(177, 177, 177);
+    transition: all 0.1s;
+}
+
+#now-playing {
+    top: 0;
+    color:rgb(153, 153, 153);
+}
+
+.twinklers {
+    font-size: 1.5vh;
+    height: 0px;
+    animation: twinkle 10s infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        box-shadow: 2px 4px 20px -5px;
+      }
+      to {
+        box-shadow: 1.5px 4px 20px 5px;
+      }
+}
