@@ -120,6 +120,8 @@ body {
 #now-playing {
     top: 0;
     color: rgb(153, 153, 153);
+    z-index: 1;
+    position: fixed;
 }
 
 .twinklers {
