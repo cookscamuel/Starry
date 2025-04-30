@@ -93,9 +93,10 @@ body {
 
 #control-panel {
     z-index: 1;
-    position: absolute;
     bottom: 0;
     margin-bottom: 1vh;
+    position: fixed;
+    left: 0;
 }
 
 .toggle-btn {
@@ -118,7 +119,7 @@ body {
 
 #now-playing {
     top: 0;
-    color:rgb(153, 153, 153);
+    color: rgb(153, 153, 153);
 }
 
 .twinklers {
@@ -130,8 +131,9 @@ body {
 @keyframes twinkle {
     from {
         box-shadow: 2px 4px 20px -5px;
-      }
-      to {
+    }
+
+    to {
         box-shadow: 1.5px 4px 20px 5px;
-      }
+    }
 }
