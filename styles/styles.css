@@ -93,7 +93,7 @@ body {
 
 #control-panel {
     z-index: 1;
-    top: 0;
+    bottom: 0;
     margin-bottom: 1vh;
     position: fixed;
     left: 0;
