@@ -1,22 +1,22 @@
 @font-face {
-    font-family: Wingdings;
-    src: url(../media/wingding.ttf);
+    font-family: Webdings;
+    src: url(../media/webdings.TTF);
+}
+
+@font-face {
+    font-family: 'Chalet 1960';
+    src: url(../media/chalet.otf);
 }
 
 body {
     color: ghostwhite;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Chalet 1960';
     font-weight: bold;
     text-align: center;
     overflow: hidden;
     font-size: 3vh;
     background: rgb(0, 0, 0);
     user-select: none;
-}
-
-#begin {
-    margin-top: 30vh;
-    font-style: oblique;
 }
 
 #stars-1 {
@@ -103,7 +103,7 @@ body {
     color: rgb(153, 153, 153);
     font-size: 5vh;
     margin-left: 1vw;
-    font-family: Wingdings;
+    font-family: Webdings;
 }
 
 .toggle-btn:hover {
@@ -122,20 +122,28 @@ body {
     color: rgb(153, 153, 153);
     z-index: 1;
     position: fixed;
+    font-family: 'Chalet 1960';
 }
 
 .twinklers {
     font-size: 1.5vh;
-    height: 0px;
+    height: 0vw;
     animation: twinkle 10s infinite alternate;
 }
 
 @keyframes twinkle {
     from {
-        box-shadow: 2px 4px 20px -5px;
+        box-shadow: 0.1042vw 0.2083vw 1.0417vw -0.2604vw;
     }
 
     to {
-        box-shadow: 1.5px 4px 20px 5px;
+        box-shadow: 0.0781vw 0.2083vw 1.0417vw 0.2604vw;
     }
+}
+
+*:fullscreen
+*:-ms-fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+   overflow: auto !important;
 }

@@ -1,23 +1,24 @@
-document.addEventListener("click", begin);
+// Function used to fade audio (music) in and out.
+// An attempt at making a more smooth transition than simply audio.pause();
+function fadeInOut(audio, inOut) {
+    if ((audio.volume <= 0.1 && inOut == 2) || audio.volume == inOut == 1) {
+        return;
+    }
+
+    setTimeout(function () {
+        inOut == 2 ? audio.volume -= 0.1 : audio.volume += 0.1;
+        fadeInOut(audio, inOut);
+    }, 25);
+};
 
 // Like an initialize function, but for a click, to allow music to play.
-function begin() {
+window.onload = function begin() {
 
-    // Prevent multiple clicks and remove the load screen.
-    document.removeEventListener("click", begin);
-
-    // Get the loading prompt.
-    var clickPrompt = document.getElementById('begin');
-
-    // Handle the fade event.
-    clickPrompt.style.transition = 'opacity 1s';
-    clickPrompt.style.opacity = '0';
     setTimeout(function () {
-        clickPrompt.remove();
+
 
         // Set background music.
         var music = new Audio("../media/music.mp3");
-        music.play();
         music.loop = true;
 
         // Create 400 stars with random spacing.
@@ -46,7 +47,7 @@ function begin() {
                 starsDiv.appendChild(newStar);
             }
         }
-        
+
         // Retrieve all the divs as a collection for later use.
         var allStarsDivs = document.getElementsByClassName('stars');
 
@@ -56,18 +57,42 @@ function begin() {
         // Add the button to toggle the music playing.
         var toggleAudioButton = document.createElement('a');
         toggleAudioButton.className = 'toggle-btn';
-        toggleAudioButton.textContent = "♫";
+        toggleAudioButton.textContent = "¯";
+        toggleAudioButton.style.textDecoration = 'line-through';
+        toggleAudioButton.style.transition = 'opacity 1s';
         toggleAudioButton.addEventListener('click', function () {
-            music.paused ? music.play() : music.pause();
-            toggleAudioButton.style.textDecoration = music.paused ? 'line-through' : 'none';
-            nowPlaying.style.opacity = '0'; // Remove the Now Playing if it's still visible.
+            if (music.paused) {
+                music.play();
+                fadeInOut(music, 1);
+                setTimeout(function () {
+                    nowPlaying.style.transition = 'opacity 2s';
+                    nowPlaying.style.opacity = '1';
+                }, 500);
+
+            }
+            else {
+                fadeInOut(music, 2);
+                setTimeout(function () {
+                    music.pause();
+                }, 300);
+                
+                nowPlaying.style.transition = 'opacity 2s';
+                nowPlaying.style.opacity = '0';
+            }
+
+            // Not a good fix. Should check based on the paused state, but not like this.
+            setTimeout(function () {
+                toggleAudioButton.style.textDecoration = music.paused ? 'line-through' : 'none';
+            }, 300);
+
         });
 
-        controlPanel.appendChild(toggleAudioButton);
 
+        // Add the button to toggle the background color.
         var toggleBackgroundButton = document.createElement('a');
         toggleBackgroundButton.className = 'toggle-btn';
-        toggleBackgroundButton.textContent = "¨";
+        toggleBackgroundButton.textContent = "1";
+        toggleBackgroundButton.style.transition = 'opacity 1s';
 
         var sky = document.getElementById('body');
         sky.style.transition = 'all .7s';
@@ -88,7 +113,36 @@ function begin() {
             skyNum = skyNum == skyColors.length ? 0 : skyNum;
         });
 
+        
+
+        // Add the volume control.
+        var volumeSlider = document.createElement('a');
+        volumeSlider.className = 'toggle-btn';
+        
+        // Add the hide UI button.
+        var toggleUIButton = document.createElement('a');
+        toggleUIButton.className = 'toggle-btn';
+        toggleUIButton.textContent = 'N';
+        toggleUIButton.style.opacity = '1';
+
+        // Toggle UI visibility function.
+        toggleUIButton.addEventListener('click', function () {
+
+            nowPlaying.style.opacity = nowPlaying.style.opacity != '0' ? '0' : '0';
+
+            toggleAudioButton.style.opacity = toggleBackgroundButton.style.opacity = 
+            toggleUIButton.style.opacity == '1' ? '0' : '1';
+
+            toggleAudioButton.style.pointerEvents = toggleBackgroundButton.style.pointerEvents
+            = toggleUIButton.style.opacity == '1' ? 'none' : 'auto';
+
+            toggleUIButton.style.opacity = toggleUIButton.style.opacity == '1' ? '0.2' : '1';
+
+        });
+
+        controlPanel.appendChild(toggleUIButton);
         controlPanel.appendChild(toggleBackgroundButton);
+        controlPanel.appendChild(toggleAudioButton);
 
         // Create the Now Playing text.
         var nowPlaying = document.getElementById('now-playing');
@@ -108,15 +162,9 @@ function begin() {
                 allStarsDivs[i].style.transition = 'opacity 2s';
                 allStarsDivs[i].style.opacity = '1';
             }
-            controlPanel.style.transition = nowPlaying.style.transition = 'opacity 2s';
-            controlPanel.style.opacity = nowPlaying.style.opacity = '1';
+            controlPanel.style.transition = 'opacity 2s';
+            controlPanel.style.opacity = '1';
         }, 500);
-
-        // Wait before hiding the Now Playing text.
-        setTimeout(function () {
-            nowPlaying.style.transition = 'opacity 2s';
-            nowPlaying.style.opacity = '0';
-        }, 5000);
 
     }, 1000);
 }
