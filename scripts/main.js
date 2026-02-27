@@ -16,7 +16,6 @@ window.onload = function begin() {
 
     setTimeout(function () {
 
-
         // Set background music.
         var music = new Audio("../media/music.mp3");
         music.loop = true;
@@ -27,6 +26,7 @@ window.onload = function begin() {
             for (var j = 0; j < 100; j++) {
                 var newStar = document.createElement('div');
                 newStar.style.width = '1px';
+                newStar.style.opacity = '0.35';
 
                 var randNum = Math.floor(Math.random() * 185);
                 newStar.textContent = randNum % 2 == 0 ? "*" : ".";

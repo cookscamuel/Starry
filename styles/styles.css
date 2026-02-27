@@ -17,6 +17,7 @@ body {
     font-size: 3vh;
     background: rgb(0, 0, 0);
     user-select: none;
+    touch-action: pan-x pan-y;
 }
 
 #stars-1 {
@@ -127,17 +128,21 @@ body {
 
 .twinklers {
     font-size: 1.5vh;
-    height: 0vw;
-    animation: twinkle 10s infinite alternate;
+    height: 0em;
+    animation: twinkle 7s infinite alternate;
 }
 
 @keyframes twinkle {
     from {
-        box-shadow: 0.1042vw 0.2083vw 1.0417vw -0.2604vw;
+        box-shadow: 0.1042em 0.2083em 1.0417em -0.2604em;
+        opacity: 0.35;
+        font-size: 1em;
     }
 
     to {
-        box-shadow: 0.0781vw 0.2083vw 1.0417vw 0.2604vw;
+        box-shadow: 0.0781em 0.4083em 1.5417em 0.4604em;
+        opacity: 1;
+        font-size: 1.2em;
     }
 }
 
