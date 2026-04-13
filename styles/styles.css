@@ -327,4 +327,8 @@ body {
         width: 85%;
     }
 
+    #music-controls-lower {
+        display: none;
+    }
+
 }
