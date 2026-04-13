@@ -8,6 +8,12 @@
     src: url(../media/chalet.otf);
 }
 
+*:fullscreen *:-ms-fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+    overflow: auto !important;
+}
+
 body {
     color: ghostwhite;
     font-family: 'Chalet 1960';
@@ -17,39 +23,33 @@ body {
     font-size: 3vh;
     background: rgb(0, 0, 0);
     user-select: none;
-    touch-action: pan-x pan-y;
+    touch-action: none;
 }
 
-#stars-1 {
-    font-size: 2vh;
-    margin: auto;
-    position: absolute;
-    animation: starSpin1 140s infinite linear;
-    z-index: 0;
-}
-
-#stars-2 {
-    font-size: 2vh;
-    margin: auto;
-    position: absolute;
-    animation: starSpin2 140s infinite linear;
-    z-index: 0;
-}
-
-#stars-3 {
-    font-size: 2vh;
-    margin: auto;
-    position: absolute;
-    animation: starSpin3 140s infinite linear;
-    z-index: 0;
-}
-
+#stars-1,
+#stars-2,
+#stars-3,
 #stars-4 {
     font-size: 2vh;
     margin: auto;
     position: absolute;
-    animation: starSpin4 140s infinite linear;
     z-index: 0;
+}
+
+#stars-1 {
+    animation: starSpin1 140s infinite linear;
+}
+
+#stars-2 {
+    animation: starSpin2 140s infinite linear;
+}
+
+#stars-3 {
+    animation: starSpin3 140s infinite linear;
+}
+
+#stars-4 {
+    animation: starSpin4 140s infinite linear;
 }
 
 @keyframes starSpin1 {
@@ -108,7 +108,7 @@ body {
 }
 
 .toggle-btn:hover {
-    color: ghostwhite;
+    color: ghostwhite !important;
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -118,18 +118,10 @@ body {
     transition: all 0.1s;
 }
 
-#now-playing {
-    top: 0;
-    color: rgb(153, 153, 153);
-    z-index: 1;
-    position: fixed;
-    font-family: 'Chalet 1960';
-}
-
 .twinklers {
     font-size: 1.5vh;
     height: 0em;
-    animation: twinkle 7s infinite alternate;
+    animation: twinkle 9s infinite alternate;
 }
 
 @keyframes twinkle {
@@ -146,9 +138,193 @@ body {
     }
 }
 
-*:fullscreen
-*:-ms-fullscreen,
-*:-webkit-full-screen,
-*:-moz-full-screen {
-   overflow: auto !important;
+.modal {
+    display: block;
+    opacity: 0;
+    width: 35vw;
+    left: 50%;
+    translate: -50%;
+    min-height: 60vh;
+    background: rgba(153, 153, 153, 0.65);
+    position: absolute;
+    margin-top: 2em;
+    border: 0.2em solid rgba(75, 75, 75, 0.65);
+    border-radius: 0.7em;
+    pointer-events: none;
+    box-shadow: inset 3px -3px 15px rgba(0, 0, 0, 0.5);
+}
+
+#music-header {
+    display: grid;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@keyframes titleAutoScrollReg {
+    0%, 25% {
+        transform: translateX(0);
+    }
+
+    70% {
+        transform: translateX(-120%);
+        
+    }
+
+    70.0001% {
+    transform: translateX(36vw);
+    }
+
+}
+
+@keyframes titleAutoScrollMobile {
+    0%, 25% {
+        transform: translateX(0);
+    }
+
+    70% {
+        transform: translateX(-120%);
+        
+    }
+
+    70.0001% {
+    transform: translateX(100vw);
+    }
+
+}
+
+#song-title {
+    width: fit-content;
+}
+
+#music-title {
+    font-size: 1.2em;
+    font-style: italic;
+    text-align: left;
+    padding: 0.7em 0.5em 0.5em 0.5em;
+}
+
+#music-exit {
+    height: 1.5em;
+    width: 1.5em;
+    font-size: 1em;
+    position: absolute;
+    right: 0;
+    margin-right: 0.3em;
+    margin-top: 0.3em;
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#music-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    min-height: 30vh;
+    max-height: 30vh;
+    margin-left: 0;
+    overflow-y: scroll;
+    border-bottom: 0.1em solid rgba(153, 153, 153, 0.65);
+    box-shadow: inset -2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#music-list::-webkit-scrollbar {
+    width: 0.7em;
+}
+
+#music-list::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.65);
+}
+
+.tracks {
+    border-bottom: 0.1em rgba(153, 153, 153, 0.65) solid;
+    padding: 0.4em;
+    transition: all 0.05s;
+}
+
+.track-titles {
+    font-size: 0.9em;
+}
+
+.track-artists {
+    font-size: 0.8em;
+}
+
+.tracks:hover {
+    background-color: rgba(153, 153, 153, 0.65);
+}
+
+#song-title,
+#song-artist {
+    font-style: normal;
+}
+
+#song-artist,
+#now-playing {
+    font-size: 0.6em;
+}
+
+#now-playing {
+    color: rgba(238, 238, 238, 0.65);
+}
+
+#repeat-one {
+    font-family: 'Chalet 1960';
+}
+
+#music-volume {
+    accent-color: rgb(153, 153, 153);
+    max-width: auto;
+}
+
+#music-volume:focus {
+    outline: none;
+}
+
+#music-volume:hover {
+    accent-color: ghostwhite;
+}
+
+#music-controls-lower {
+    margin: 1rem;
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+
+#egg-1 {
+    position: absolute;
+    left: 50%;
+    translate: -50%;
+    transition: all 5s;
+    opacity: 0;
+    width: 1em;
+}
+
+#egg-2 {
+    color: rgb(240, 117, 35);
+    position: absolute;
+    left: 50%;
+    translate: -50%;
+    z-index: 2;
+    text-decoration: none;
+    bottom: 0;
+    margin-bottom: 3vh;
+    transition: all 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    font-family: Consolas;
+}
+
+#egg-2:hover {
+    color: orange;
+}
+
+
+/* Basic Media Queries. Additional changes likely required. */
+@media (width <= 1024px) {
+    .modal {
+        width: 85%;
+    }
+
 }

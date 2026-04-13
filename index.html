@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starry</title>
-    <script src="scripts/main.js"></script>
-    <link rel="stylesheet" href="./styles/styles.css"/>
+    <title>Stars in Space</title>
+    <script type="module" src="scripts/main.js"></script>
+    <link rel="stylesheet" href="./styles/styles.css" />
     <link rel="icon" type="image/x-icon" href="/media/star.png">
 </head>
+
 <body id="body">
-    <div id="now-playing"></div>
     <div id="control-panel"></div>
     <div class="stars" id="stars-1"></div>
     <div class="stars" id="stars-2"></div>
     <div class="stars" id="stars-3"></div>
     <div class="stars" id="stars-4"></div>
 </body>
+<div class="modal" id="music-menu">
+    <div id="music-header">
+        <div id="music-title">
+            <div id="now-playing">Now Playing:</div>
+            <div id="song-title">nothing</div>
+            <div id="song-artist">. . .</div>
+        </div>
+        <a class="toggle-btn" id="music-exit">r</a>
+    </div>
+    <ul id="music-list"></ul>
+    <div id="music-controls">
+        <a class="toggle-btn" id="music-prev">7</a>
+        <a class="toggle-btn" id="music-play-pause">4</a>
+        <a class="toggle-btn" id="music-next">8</a>
+        <a class="toggle-btn" id="music-repeat">`<sup id="repeat-one">1</sup></a>
+        <div id="music-controls-lower">
+            <a class="toggle-btn" id="music-mute">Xð</a>
+            <input type="range" id="music-volume" name="music-volume" class="toggle-btn" min="0" max="1" step="0.1">
+        </div>
+    </div>
+</div>
+
 </html>
