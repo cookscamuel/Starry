@@ -12,7 +12,8 @@ const SONG_INFO = [
     ["Minecraft 1.0.16.05 OST", "Moon 2 (Fjord)"],
     ["Al Bowlly, Ray Noble & His Orchestra", "Midnight, The Stars and You"],
     ["Nordic Light Trio", "Stars Above"],
-    ["Kyle Dixon & Michael Stein", "You're a Fighter"]
+    ["Kyle Dixon & Michael Stein", "You're a Fighter"],
+    ["Justin Karas", "Near Earth Organizer"]
 ];
 
 // Recursive function used to fade audio in or out based on the input.
@@ -53,7 +54,7 @@ function updatePlayerAtSongEnd(song, songlist, title, artist, vol, modal) {
     artist.textContent = songlist.getFrontArtist();
     song.volume = vol;
     song.play();
-    handleAutoScrollingTitle(title, modal);
+    handleAutoScrollingText([title, artist], modal);
 };
 
 // A function used to update the player when a song starts or stops for any reason.
@@ -65,7 +66,7 @@ function startStopCurrentSong(song, songlist, button, title, artist, vol, modal)
         button.style.pointerEvents = 'none';
         title.textContent = songlist.getFrontTitle();
         artist.textContent = songlist.getFrontArtist();
-        handleAutoScrollingTitle(title, modal);
+        handleAutoScrollingText([title, artist], modal);
 
         // Cooldown to tentatively prevent the audio fade function from breaking due to spam.
         setTimeout(function () {
@@ -84,17 +85,23 @@ function startStopCurrentSong(song, songlist, button, title, artist, vol, modal)
             title.style.animation = 'none';
         }, 250);
     }
-}
+};
 
-// Function used to appropriately set the auto scrolling animation for the title if it is needed.
-function handleAutoScrollingTitle(title, modal) {
-    title.style.animation = 'none';
-    if (title.getBoundingClientRect().width >= modal.getBoundingClientRect().width - 40) {
-        title.style.animation = visualViewport.width <= 1024 ?
-            'titleAutoScrollMobile 8s infinite linear' : 'titleAutoScrollReg 8s infinite linear';
-        title.style.animationTimingFunction = 'ease';
-    }
-}
+// Function used to appropriately set the auto scrolling animation for the title and artist if it is needed.
+function handleAutoScrollingText(textarray, modal) {
+
+    textarray[0].style.animation = textarray[1].style.animation = 'none';
+    setTimeout(function () {
+    for (var text of textarray) {
+            if (text.getBoundingClientRect().width >= modal.getBoundingClientRect().width - 40) {
+                text.style.animation = visualViewport.width <= 1024 ?
+                    'titleAutoScrollMobile 8s infinite linear' : 'titleAutoScrollReg 8s infinite linear';
+                text.style.animationTimingFunction = 'ease';
+            }
+        };
+    }, 1000);
+
+};
 
 // "Main"
 window.onload = function begin() {
@@ -128,6 +135,60 @@ window.onload = function begin() {
         var controlPanel = document.getElementById('control-panel');
         controlPanel.style.opacity = '0';
 
+        // Add the button to toggle the background color.
+        var toggleBackgroundButton = document.createElement('a');
+        toggleBackgroundButton.className = 'toggle-btn';
+        toggleBackgroundButton.textContent = "1";
+        toggleBackgroundButton.style.transition = 'opacity 1s';
+
+        var sky = document.getElementById('body');
+        sky.style.transition = 'all .7s';
+        var skyColors = [
+            "rgb(4, 0, 26)",
+            "#343E47",
+            "rgb(16, 0, 107)",
+            "rgb(38, 23, 58)",
+            "rgb(49, 31, 31)",
+            "rgb(20, 13, 19)",
+            "black"
+        ];
+        var skyNum = 0;
+
+        toggleBackgroundButton.addEventListener('click', function () {
+            sky.style.background = skyColors[skyNum];
+            skyNum++;
+            skyNum = skyNum == skyColors.length ? 0 : skyNum;
+        });
+
+        // Add the hide UI button.
+        var toggleUIButton = document.createElement('a');
+        toggleUIButton.className = 'toggle-btn';
+        toggleUIButton.textContent = 'N';
+        toggleUIButton.style.opacity = '1';
+        toggleUIButton.style.pointerEvents = 'auto';
+
+        // Toggle UI visibility function.
+        toggleUIButton.addEventListener('click', function () {
+
+            openModalMusicMenuButton.style.opacity = toggleBackgroundButton.style.opacity =
+                toggleUIButton.style.opacity == '1' ? '0' : '1';
+
+            controlPanel.style.pointerEvents = toggleUIButton.style.opacity == '1' ? 'none' : 'auto';
+
+            toggleUIButton.style.opacity = toggleUIButton.style.opacity == '1' ? '0.15' : '1';
+
+        });
+
+        // Add the button to toggle the music playing.
+        var openModalMusicMenuButton = document.createElement('a');
+        openModalMusicMenuButton.className = 'toggle-btn';
+        openModalMusicMenuButton.textContent = "¯";
+        openModalMusicMenuButton.style.transition = 'opacity 1s';
+
+        controlPanel.appendChild(toggleUIButton);
+        controlPanel.appendChild(toggleBackgroundButton);
+        controlPanel.appendChild(openModalMusicMenuButton);
+
         // Handle Music.
         const allSongs = new musicQueue();
 
@@ -135,12 +196,6 @@ window.onload = function begin() {
         for (var i = 0; i <= SONG_INFO.length - 1; i++) {
             allSongs.addSongRear("../media/music-" + i + ".mp3", SONG_INFO[i][0], SONG_INFO[i][1]);
         }
-
-        // Add the button to toggle the music playing.
-        var openModalMusicMenuButton = document.createElement('a');
-        openModalMusicMenuButton.className = 'toggle-btn';
-        openModalMusicMenuButton.textContent = "¯";
-        openModalMusicMenuButton.style.transition = 'opacity 1s';
 
         var modalMusicMenu = document.getElementById('music-menu');
         modalMusicMenu.style.opacity = '0';
@@ -211,12 +266,14 @@ window.onload = function begin() {
             updatePlayerAtSongEnd(currentSong, allSongs, nowPlayingTitle, nowPlayingArtist, currentVolume, modalMusicMenu);
         });
 
+        // Handle clicking the previous song button.
         prev.addEventListener('click', function () {
             allSongs.previousSong();
             updatePlayerAtSongEnd(currentSong, allSongs, nowPlayingTitle, nowPlayingArtist, currentVolume, modalMusicMenu);
             playPause.textContent = ";";
         });
 
+        // Handle clicking the next song button.
         next.addEventListener('click', function () {
             allSongs.nextSong();
             updatePlayerAtSongEnd(currentSong, allSongs, nowPlayingTitle, nowPlayingArtist, currentVolume, modalMusicMenu);
@@ -256,56 +313,10 @@ window.onload = function begin() {
             isMuted = !isMuted;
         });
 
-
-
-        // Add the button to toggle the background color.
-        var toggleBackgroundButton = document.createElement('a');
-        toggleBackgroundButton.className = 'toggle-btn';
-        toggleBackgroundButton.textContent = "1";
-        toggleBackgroundButton.style.transition = 'opacity 1s';
-
-        var sky = document.getElementById('body');
-        sky.style.transition = 'all .7s';
-        var skyColors = [
-            "rgb(4, 0, 26)",
-            "#343E47",
-            "rgb(16, 0, 107)",
-            "rgb(38, 23, 58)",
-            "rgb(49, 31, 31)",
-            "rgb(20, 13, 19)",
-            "black"
-        ];
-        var skyNum = 0;
-
-        toggleBackgroundButton.addEventListener('click', function () {
-            sky.style.background = skyColors[skyNum];
-            skyNum++;
-            skyNum = skyNum == skyColors.length ? 0 : skyNum;
+        // Handle mobile devices being rotated, primarily.
+        screen.orientation.addEventListener('change', function () {
+            handleAutoScrollingText([nowPlayingTitle, nowPlayingArtist], modalMusicMenu);
         });
-
-        // Add the hide UI button.
-        var toggleUIButton = document.createElement('a');
-        toggleUIButton.className = 'toggle-btn';
-        toggleUIButton.textContent = 'N';
-        toggleUIButton.style.opacity = '1';
-        toggleUIButton.style.pointerEvents = 'auto';
-
-        // Toggle UI visibility function.
-        toggleUIButton.addEventListener('click', function () {
-
-            openModalMusicMenuButton.style.opacity = toggleBackgroundButton.style.opacity =
-                toggleUIButton.style.opacity == '1' ? '0' : '1';
-
-            controlPanel.style.pointerEvents = toggleUIButton.style.opacity == '1' ? 'none' : 'auto';
-
-            toggleUIButton.style.opacity = toggleUIButton.style.opacity == '1' ? '0.15' : '1';
-
-        });
-
-        controlPanel.appendChild(toggleUIButton);
-        controlPanel.appendChild(toggleBackgroundButton);
-        controlPanel.appendChild(openModalMusicMenuButton);
-
 
         // Spacebar cooldown variable.
         var isSpacePressed = false;

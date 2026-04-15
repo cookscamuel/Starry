@@ -194,10 +194,6 @@ body {
 
 }
 
-#song-title {
-    width: fit-content;
-}
-
 #music-title {
     font-size: 1.2em;
     font-style: italic;
@@ -260,6 +256,7 @@ body {
 #song-title,
 #song-artist {
     font-style: normal;
+    width: fit-content;
 }
 
 #song-artist,
