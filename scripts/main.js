@@ -1,6 +1,7 @@
 // Issues:
 // Tracklist still scrolling when space is pressed after selecting a song.
 // Volume slider not responding as desired to zooming.
+// Various mobile performance issues.
 
 // Standard deque data structure for practice and also making a tracklist.
 import musicQueue from "./queue.js";
@@ -89,11 +90,10 @@ function startStopCurrentSong(song, songlist, button, title, artist, vol, modal)
 
 // Function used to appropriately set the auto scrolling animation for the title and artist if it is needed.
 function handleAutoScrollingText(textarray, modal) {
-
     textarray[0].style.animation = textarray[1].style.animation = 'none';
     setTimeout(function () {
     for (var text of textarray) {
-            if (text.getBoundingClientRect().width >= modal.getBoundingClientRect().width - 40) {
+            if (text.getBoundingClientRect().width >= modal.getBoundingClientRect().width - 35) {
                 text.style.animation = visualViewport.width <= 1024 ?
                     'titleAutoScrollMobile 8s infinite linear' : 'titleAutoScrollReg 8s infinite linear';
                 text.style.animationTimingFunction = 'ease';
@@ -233,6 +233,7 @@ window.onload = function begin() {
             artist.className = "track-artists";
             title.textContent = SONG_INFO[i][1];
             artist.textContent = SONG_INFO[i][0];
+            artist.style.fontSize = '0.65em';
             tracklist.appendChild(track);
             track.appendChild(title);
             track.appendChild(artist);
@@ -404,12 +405,12 @@ window.onload = function begin() {
                 mute.textContent = currentVolume != 0 ? "Xð" : "X";
                 isMuted = currentVolume != 0 ? false : true;
             }
-        })
+        });
 
         // Hide everything by default to allow for a fade-in effect.
         for (var i = 0; i < 4; i++) {
             allStarsDivs[i].style.opacity = '0';
-        }
+        };
 
         // Wait to allow for a transition.
         setTimeout(function () {

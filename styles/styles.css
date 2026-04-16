@@ -25,7 +25,7 @@ body {
     user-select: none;
     touch-action: manipulation;
     -webkit-touch-callout: none;
-    -webkit-user-select: none; 
+    -webkit-user-select: none;
 }
 
 #stars-1,
@@ -109,12 +109,6 @@ body {
     font-family: Webdings;
 }
 
-.toggle-btn:hover {
-    color: ghostwhite !important;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
 .toggle-btn:active {
     color: rgb(177, 177, 177);
     transition: all 0.1s;
@@ -163,33 +157,37 @@ body {
 }
 
 @keyframes titleAutoScrollReg {
-    0%, 25% {
+
+    0%,
+    25% {
         transform: translateX(0);
     }
 
     70% {
         transform: translateX(-120%);
-        
+
     }
 
     70.0001% {
-    transform: translateX(36vw);
+        transform: translateX(36vw);
     }
 
 }
 
 @keyframes titleAutoScrollMobile {
-    0%, 25% {
+
+    0%,
+    25% {
         transform: translateX(0);
     }
 
     70% {
         transform: translateX(-120%);
-        
+
     }
 
     70.0001% {
-    transform: translateX(100vw);
+        transform: translateX(100vw);
     }
 
 }
@@ -249,9 +247,7 @@ body {
     font-size: 0.8em;
 }
 
-.tracks:hover {
-    background-color: rgba(153, 153, 153, 0.65);
-}
+
 
 #song-title,
 #song-artist {
@@ -319,9 +315,26 @@ body {
     color: orange;
 }
 
+/* Hover Media Styles, helps prevent the persisting mobile hover styles. */
+@media (hover: hover) {
+    .toggle-btn:hover {
+        cursor: pointer;
+        color: ghostwhite !important;
+        transition: all 0.3s !important;
+    }
+
+    .tracks:hover {
+        background-color: rgba(153, 153, 153, 0.65);
+    }
+
+    #music-volume:hover {
+        accent-color: ghostwhite;
+    }
+}
+
 
 /* Basic Media Queries. Additional changes likely required. */
-@media (width <= 1024px) {
+@media (width <=1024px) {
     .modal {
         width: 85%;
     }
